@@ -15,6 +15,19 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                facebook: {
+                    blue: '#1877F2',
+                    'blue-hover': '#166FE5',
+                    bg: '#F0F2F5',
+                    green: '#42B72A',
+                    'green-hover': '#36A420',
+                    text: '#050505',
+                    'text-secondary': '#65676B',
+                    border: '#CED0D4',
+                    'hover-bg': '#F2F2F2',
+                },
+            },
         },
     },
 
