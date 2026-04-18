@@ -1,51 +1,45 @@
 'use client'
 
 import { useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
 import { PostType } from '@/types'
+import { toggleLike, addComment } from '@/lib/localStore'
 
 export default function PostCard({ post: initialPost }: { post: PostType }) {
-  const { data: session } = useSession()
+  const { user } = useAuth()
   const [post, setPost] = useState(initialPost)
   const [showComments, setShowComments] = useState(false)
   const [comment, setComment] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const userId = (session?.user as any)?.id
-  const isLiked = post.likes.some((l) => l.userId === userId)
+  const userId = user?.id
+  const isLiked = userId ? post.likes.some((l) => l.userId === userId) : false
 
-  const handleLike = async () => {
-    const res = await fetch(`/api/posts/${post.id}/like`, { method: 'POST' })
-    if (res.ok) {
-      const { liked } = await res.json()
-      setPost((prev) => ({
-        ...prev,
-        likes: liked ? [...prev.likes, { userId }] : prev.likes.filter((l) => l.userId !== userId),
-        _count: { ...prev._count, likes: prev._count.likes + (liked ? 1 : -1) },
-      }))
-    }
+  const handleLike = () => {
+    if (!userId) return
+    const liked = toggleLike(userId, post.id)
+    setPost((prev) => ({
+      ...prev,
+      likes: liked
+        ? [...prev.likes, { userId }]
+        : prev.likes.filter((l) => l.userId !== userId),
+      _count: { ...prev._count, likes: prev._count.likes + (liked ? 1 : -1) },
+    }))
   }
 
-  const handleComment = async (e: React.FormEvent) => {
+  const handleComment = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!comment.trim()) return
+    if (!comment.trim() || !userId) return
     setSubmitting(true)
-    const res = await fetch(`/api/posts/${post.id}/comments`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: comment }),
-    })
-    if (res.ok) {
-      const newComment = await res.json()
-      setPost((prev) => ({
-        ...prev,
-        comments: [...prev.comments, newComment],
-        _count: { ...prev._count, comments: prev._count.comments + 1 },
-      }))
-      setComment('')
-    }
+    const newComment = addComment(userId, post.id, comment)
+    setPost((prev) => ({
+      ...prev,
+      comments: [...prev.comments, newComment],
+      _count: { ...prev._count, comments: prev._count.comments + 1 },
+    }))
+    setComment('')
     setSubmitting(false)
   }
 
@@ -121,7 +115,7 @@ export default function PostCard({ post: initialPost }: { post: PostType }) {
           ))}
           <form onSubmit={handleComment} className="flex gap-2 mt-2">
             <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0 text-xs font-bold text-gray-600">
-              {session?.user?.name?.charAt(0).toUpperCase()}
+              {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 relative">
               <input

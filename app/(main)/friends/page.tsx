@@ -1,49 +1,45 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
+import { getFriendships, respondToRequest } from '@/lib/localStore'
+import { FriendshipWithUsers } from '@/lib/localStore'
 
 export default function FriendsPage() {
-  const { data: session } = useSession()
-  const [data, setData] = useState<any>({ received: [], sent: [], friends: [] })
-  const [loading, setLoading] = useState(true)
-
-  const currentUserId = (session?.user as any)?.id
+  const { user } = useAuth()
+  const [data, setData] = useState<{
+    received: FriendshipWithUsers[]
+    sent: FriendshipWithUsers[]
+    friends: FriendshipWithUsers[]
+  }>({ received: [], sent: [], friends: [] })
 
   useEffect(() => {
-    fetch('/api/friends')
-      .then((r) => r.json())
-      .then((d) => { setData(d); setLoading(false) })
-  }, [])
+    if (!user) return
+    setData(getFriendships(user.id))
+  }, [user])
 
-  const handleRespond = async (friendshipId: string, status: 'ACCEPTED' | 'DECLINED') => {
-    const res = await fetch(`/api/friends/${friendshipId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    })
-    if (res.ok) {
-      const updated = await res.json()
-      setData((prev: any) => ({
-        ...prev,
-        received: prev.received.filter((f: any) => f.id !== friendshipId),
-        friends: status === 'ACCEPTED' ? [...prev.friends, updated] : prev.friends,
-      }))
-    }
+  const handleRespond = (friendshipId: string, status: 'ACCEPTED' | 'DECLINED') => {
+    const accepted = data.received.find((f) => f.id === friendshipId)
+    respondToRequest(friendshipId, status)
+    setData((prev) => ({
+      ...prev,
+      received: prev.received.filter((f) => f.id !== friendshipId),
+      friends: status === 'ACCEPTED' && accepted ? [...prev.friends, { ...accepted, status: 'ACCEPTED' }] : prev.friends,
+    }))
   }
 
-  if (loading) return <div className="text-center py-8 text-gray-500">Loading...</div>
+  const currentUserId = user?.id
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      {data.received?.length > 0 && (
+      {data.received.length > 0 && (
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             Friend Requests ({data.received.length})
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {data.received.map((f: any) => (
+            {data.received.map((f) => (
               <div key={f.id} className="bg-white rounded-lg shadow p-4">
                 <Link href={`/profile/${f.requester.id}`} className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -77,13 +73,13 @@ export default function FriendsPage() {
 
       <section>
         <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Friends ({data.friends?.length ?? 0})
+          Friends ({data.friends.length})
         </h2>
-        {!data.friends?.length ? (
+        {data.friends.length === 0 ? (
           <p className="text-gray-500">No friends yet. Visit profiles to send friend requests!</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {data.friends.map((f: any) => {
+            {data.friends.map((f) => {
               const friend = f.requesterId === currentUserId ? f.addressee : f.requester
               return (
                 <Link
@@ -106,13 +102,13 @@ export default function FriendsPage() {
         )}
       </section>
 
-      {data.sent?.length > 0 && (
+      {data.sent.length > 0 && (
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             Pending Requests Sent ({data.sent.length})
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {data.sent.map((f: any) => (
+            {data.sent.map((f) => (
               <Link
                 key={f.id}
                 href={`/profile/${f.addressee.id}`}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 interface LeftSidebarProps {
-  user: { id?: string; name?: string | null; image?: string | null }
+  user: { id?: string; name?: string | null; profileImage?: string | null }
 }
 
 export default function LeftSidebar({ user }: LeftSidebarProps) {
@@ -13,8 +13,8 @@ export default function LeftSidebar({ user }: LeftSidebarProps) {
           className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
         >
           <div className="w-9 h-9 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center flex-shrink-0">
-            {user.image ? (
-              <img src={user.image} alt={user.name ?? ''} className="w-full h-full object-cover" />
+            {user.profileImage ? (
+              <img src={user.profileImage} alt={user.name ?? ''} className="w-full h-full object-cover" />
             ) : (
               <span className="text-sm font-bold text-gray-600">{user.name?.charAt(0).toUpperCase()}</span>
             )}
@@ -25,6 +25,11 @@ export default function LeftSidebar({ user }: LeftSidebarProps) {
         <Link href="/friends" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors">
           <span className="text-xl w-9 h-9 flex items-center justify-center">👥</span>
           <span className="font-medium text-gray-800">Friends</span>
+        </Link>
+
+        <Link href="/jobs" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+          <span className="text-xl w-9 h-9 flex items-center justify-center">💼</span>
+          <span className="font-medium text-gray-800">Jobs</span>
         </Link>
 
         <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors">
