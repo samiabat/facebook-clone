@@ -19,7 +19,7 @@ A Facebook-inspired social media web application built with **Next.js 15**, **Pr
 | Styling | Tailwind CSS |
 | Auth | NextAuth.js v4 |
 | ORM | Prisma |
-| DB (dev) | SQLite |
+| DB (dev) | PostgreSQL |
 | DB (prod) | PostgreSQL (e.g. Neon) |
 
 ## Running Locally
@@ -30,10 +30,11 @@ npm install
 
 # 2. Set up environment variables
 cp .env.example .env
-# Edit .env and set NEXTAUTH_SECRET to any random string
+# Edit .env — set DATABASE_URL to a PostgreSQL connection string
+# and NEXTAUTH_SECRET to any random string
 
-# 3. Create the database
-npx prisma db push
+# 3. Apply the database schema
+npx prisma migrate deploy
 
 # 4. Start the development server
 npm run dev
@@ -46,11 +47,10 @@ Open http://localhost:3000
 1. Push this repository to GitHub
 2. Import it in vercel.com — it auto-detects Next.js
 3. Add these Environment Variables in the Vercel dashboard:
-   - DATABASE_URL: Your PostgreSQL connection string (e.g. from Neon https://neon.tech)
-   - NEXTAUTH_SECRET: A long random string
-   - NEXTAUTH_URL: Your Vercel deployment URL
+   - `DATABASE_URL`: Your PostgreSQL connection string (e.g. from [Neon](https://neon.tech), free tier available)
+   - `NEXTAUTH_SECRET`: A long random string (generate with `openssl rand -base64 32`)
+   - `NEXTAUTH_URL`: Your full Vercel deployment URL (e.g. `https://your-app.vercel.app`)
 
-4. Deploy — Vercel runs npm run build automatically.
+4. Deploy — Vercel runs `npm run build` which automatically runs `prisma migrate deploy` to set up the database schema.
 
-Note: For the production database, use a hosted PostgreSQL provider such as Neon (free tier available).
-Change the provider in prisma/schema.prisma from "sqlite" to "postgresql" before deploying.
+> **Important**: SQLite is not supported on Vercel because its filesystem is read-only. This project uses PostgreSQL for both development and production. You can get a free PostgreSQL database from [Neon](https://neon.tech).
