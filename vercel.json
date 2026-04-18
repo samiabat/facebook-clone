@@ -1,23 +1,4 @@
 {
-    "version": 2,
-    "framework": null,
-    "outputDirectory": "public",
-    "buildCommand": "npm install && npm run build",
-    "functions": {
-        "api/index.php": {
-            "runtime": "vercel-php@0.7.2"
-        }
-    },
-    "routes": [
-        { "handle": "filesystem" },
-        {
-            "src": "/(.*)",
-            "dest": "/api/index.php"
-        }
-    ],
-    "build": {
-        "env": {
-            "APP_ENV": "production"
-        }
-    }
+  "buildCommand": "npm run build",
+  "framework": "nextjs"
 }

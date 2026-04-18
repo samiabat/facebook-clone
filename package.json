@@ -1,24 +1,30 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build && vite build --ssr"
-    },
-    "dependencies": {
-        "ziggy-js": "^2.3.0"
-    },
-    "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
-        "@tailwindcss/forms": "^0.5.3",
-        "@vitejs/plugin-vue": "^4.0.0",
-        "@vue/server-renderer": "^3.2.31",
-        "autoprefixer": "^10.4.12",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.8.0",
-        "postcss": "^8.4.18",
-        "tailwindcss": "^3.2.1",
-        "vite": "^4.0.0",
-        "vue": "^3.2.41"
-    }
+  "name": "socialbook",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.0",
+    "bcryptjs": "^2.4.3",
+    "next": "15.5.15",
+    "next-auth": "^4.24.5",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "prisma": "^5.7.0",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
 }
