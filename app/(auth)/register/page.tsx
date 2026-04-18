@@ -1,38 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { register } = useAuth()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match')
       return
     }
     setLoading(true)
-    setError('')
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
-    })
-    if (!res.ok) {
-      const data = await res.json()
-      setError(data.error || 'Registration failed')
-      setLoading(false)
-      return
-    }
-    await signIn('credentials', { email: form.email, password: form.password, redirect: false })
+    register(form.name, form.email, form.password)
     router.push('/')
-    router.refresh()
   }
 
   return (

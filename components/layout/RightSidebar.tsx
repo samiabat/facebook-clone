@@ -1,41 +1,43 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
+import { getUsers } from '@/lib/localStore'
+import { SeedUser } from '@/lib/mockData'
 
-export default async function RightSidebar() {
-  const session = await getServerSession(authOptions)
-  if (!session?.user) return null
+export default function RightSidebar() {
+  const { user } = useAuth()
+  const [suggestions, setSuggestions] = useState<SeedUser[]>([])
 
-  const currentUserId = (session.user as any).id
+  useEffect(() => {
+    if (!user) return
+    setSuggestions(getUsers().filter((u) => u.id !== user.id).slice(0, 8))
+  }, [user])
 
-  const users = await prisma.user.findMany({
-    where: { id: { not: currentUserId } },
-    take: 8,
-    select: { id: true, name: true, profileImage: true },
-  })
+  if (!user) return null
 
   return (
     <aside className="hidden xl:block w-72 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-4">
       <h3 className="text-gray-500 font-semibold px-3 mb-3 text-sm">People you may know</h3>
       <div className="space-y-1">
-        {users.map((user) => (
+        {suggestions.map((u) => (
           <Link
-            key={user.id}
-            href={`/profile/${user.id}`}
+            key={u.id}
+            href={`/profile/${u.id}`}
             className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
           >
             <div className="w-9 h-9 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center flex-shrink-0">
-              {user.profileImage ? (
-                <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
+              {u.profileImage ? (
+                <img src={u.profileImage} alt={u.name} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-sm font-bold text-gray-600">{user.name.charAt(0).toUpperCase()}</span>
+                <span className="text-sm font-bold text-gray-600">{u.name.charAt(0).toUpperCase()}</span>
               )}
             </div>
-            <span className="font-medium text-gray-800 text-sm">{user.name}</span>
+            <span className="font-medium text-gray-800 text-sm">{u.name}</span>
           </Link>
         ))}
-        {users.length === 0 && (
+        {suggestions.length === 0 && (
           <p className="px-3 text-sm text-gray-500">No suggestions yet.</p>
         )}
       </div>
