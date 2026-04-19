@@ -5,14 +5,14 @@ import { useState } from 'react'
 const CATEGORIES = ['All', 'Vehicles', 'Electronics', 'Garden & Outdoor', 'Family', 'Clothing', 'Entertainment', 'Hobbies']
 
 const LISTINGS = [
-  { id: 1, title: '2019 Honda Civic', price: '$18,500', location: 'San Francisco, CA', category: 'Vehicles', gradient: 'from-blue-400 to-blue-600', emoji: '🚗' },
-  { id: 2, title: 'iPhone 14 Pro Max', price: '$850', location: 'New York, NY', category: 'Electronics', gradient: 'from-gray-400 to-gray-600', emoji: '📱' },
-  { id: 3, title: 'Vintage Sofa', price: '$320', location: 'Austin, TX', category: 'Family', gradient: 'from-amber-400 to-orange-500', emoji: '🛋️' },
-  { id: 4, title: 'Mountain Bike', price: '$450', location: 'Denver, CO', category: 'Hobbies', gradient: 'from-green-400 to-green-600', emoji: '🚴' },
-  { id: 5, title: 'MacBook Pro 2022', price: '$1,200', location: 'Seattle, WA', category: 'Electronics', gradient: 'from-slate-400 to-slate-600', emoji: '💻' },
-  { id: 6, title: 'Garden Set', price: '$180', location: 'Portland, OR', category: 'Garden & Outdoor', gradient: 'from-teal-400 to-emerald-600', emoji: '🌿' },
-  { id: 7, title: 'Canon DSLR Camera', price: '$680', location: 'Chicago, IL', category: 'Electronics', gradient: 'from-red-400 to-red-600', emoji: '📷' },
-  { id: 8, title: 'Designer Handbag', price: '$280', location: 'Miami, FL', category: 'Clothing', gradient: 'from-pink-400 to-rose-500', emoji: '👜' },
+  { id: 1, title: '2019 Honda Civic', price: '$18,500', location: 'San Francisco, CA', category: 'Vehicles', image: 'https://picsum.photos/seed/honda_civic/400/300' },
+  { id: 2, title: 'iPhone 14 Pro Max', price: '$850', location: 'New York, NY', category: 'Electronics', image: 'https://picsum.photos/seed/iphone14/400/300' },
+  { id: 3, title: 'Vintage Sofa', price: '$320', location: 'Austin, TX', category: 'Family', image: 'https://picsum.photos/seed/vintage_sofa/400/300' },
+  { id: 4, title: 'Mountain Bike', price: '$450', location: 'Denver, CO', category: 'Hobbies', image: 'https://picsum.photos/seed/mountain_bike/400/300' },
+  { id: 5, title: 'MacBook Pro 2022', price: '$1,200', location: 'Seattle, WA', category: 'Electronics', image: 'https://picsum.photos/seed/macbook_pro/400/300' },
+  { id: 6, title: 'Garden Set', price: '$180', location: 'Portland, OR', category: 'Garden & Outdoor', image: 'https://picsum.photos/seed/garden_set/400/300' },
+  { id: 7, title: 'Canon DSLR Camera', price: '$680', location: 'Chicago, IL', category: 'Electronics', image: 'https://picsum.photos/seed/canon_dslr/400/300' },
+  { id: 8, title: 'Designer Handbag', price: '$280', location: 'Miami, FL', category: 'Clothing', image: 'https://picsum.photos/seed/handbag_designer/400/300' },
 ]
 
 export default function MarketplacePage() {
@@ -79,8 +79,8 @@ export default function MarketplacePage() {
               key={listing.id}
               className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow"
             >
-              <div className={`h-36 bg-gradient-to-br ${listing.gradient} flex items-center justify-center`}>
-                <span className="text-5xl">{listing.emoji}</span>
+              <div className="h-36 overflow-hidden">
+                <img src={listing.image} alt={listing.title} className="w-full h-full object-cover" />
               </div>
               <div className="p-2.5">
                 <p className="font-bold text-gray-900 text-sm">{listing.price}</p>

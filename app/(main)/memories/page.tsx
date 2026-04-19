@@ -4,15 +4,15 @@ const MEMORIES = [
   {
     year: 2023,
     items: [
-      { id: 1, date: 'March 15, 2023', content: 'Just finished my morning run! 🏃‍♀️ 5K in under 25 minutes – new personal best!', gradient: 'from-orange-400 to-pink-500' },
-      { id: 2, date: 'March 20, 2023', content: 'Captured this amazing sunset last night at the beach 🌅 Sometimes you just have to stop and appreciate the beauty around us.', gradient: 'from-orange-300 to-red-400' },
+      { id: 1, date: 'March 15, 2023', content: 'Just finished my morning run! 🏃‍♀️ 5K in under 25 minutes – new personal best!', image: 'https://picsum.photos/seed/memory_run2023/800/350' },
+      { id: 2, date: 'March 20, 2023', content: 'Captured this amazing sunset last night at the beach 🌅 Sometimes you just have to stop and appreciate the beauty around us.', image: 'https://picsum.photos/seed/memory_sunset2023/800/350' },
     ],
   },
   {
     year: 2022,
     items: [
-      { id: 3, date: 'June 5, 2022', content: 'Had the most amazing coffee this morning at the new café downtown ☕', gradient: 'from-brown-400 to-amber-500' },
-      { id: 4, date: 'December 25, 2022', content: 'Merry Christmas everyone! 🎄 Spent the day with family and friends. So grateful!', gradient: 'from-red-400 to-green-500' },
+      { id: 3, date: 'June 5, 2022', content: 'Had the most amazing coffee this morning at the new café downtown ☕', image: 'https://picsum.photos/seed/memory_coffee2022/800/350' },
+      { id: 4, date: 'December 25, 2022', content: 'Merry Christmas everyone! 🎄 Spent the day with family and friends. So grateful!', image: 'https://picsum.photos/seed/memory_xmas2022/800/350' },
     ],
   },
 ]
@@ -53,8 +53,11 @@ export default function MemoriesPage() {
           <div className="space-y-4">
             {items.map((memory) => (
               <div key={memory.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className={`h-32 bg-gradient-to-r ${memory.gradient} flex items-center justify-center p-6`}>
-                  <p className="text-white font-semibold text-center text-sm leading-relaxed drop-shadow">{memory.content}</p>
+                <div className="h-32 relative overflow-hidden">
+                  <img src={memory.image} alt="" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-6">
+                    <p className="text-white font-semibold text-center text-sm leading-relaxed drop-shadow">{memory.content}</p>
+                  </div>
                 </div>
                 <div className="p-4 flex items-center justify-between">
                   <div>

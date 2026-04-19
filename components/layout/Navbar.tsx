@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
+import { getUnreadCount } from '@/lib/localStore'
 
 interface NavbarProps {
   user: { id?: string; name?: string | null; profileImage?: string | null }
@@ -59,9 +60,15 @@ const NAV_LINKS = [
 
 export default function Navbar({ user }: NavbarProps) {
   const [showMenu, setShowMenu] = useState(false)
+  const [unreadMessages, setUnreadMessages] = useState(0)
   const { logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+
+  useEffect(() => {
+    if (!user.id) return
+    setUnreadMessages(getUnreadCount(user.id))
+  }, [user.id])
 
   const handleLogout = () => {
     setShowMenu(false)
@@ -120,17 +127,28 @@ export default function Navbar({ user }: NavbarProps) {
             </svg>
           </button>
           {/* Messenger */}
-          <button className="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center transition-colors">
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+          <Link
+            href="/messages"
+            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-colors ${pathname.startsWith('/messages') ? 'bg-[#dce8ff] text-[#1877f2]' : 'bg-[#e4e6eb] hover:bg-gray-300 text-gray-800'}`}
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.936 1.44 5.56 3.7 7.28V22l3.37-1.85c.9.25 1.86.39 2.85.39 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.09 12.45l-2.56-2.73-4.99 2.73 5.49-5.83 2.63 2.73 4.92-2.73-5.49 5.83z" />
             </svg>
-          </button>
+            {unreadMessages > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
+                {unreadMessages > 9 ? '9+' : unreadMessages}
+              </span>
+            )}
+          </Link>
           {/* Notifications */}
-          <button className="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-gray-300 flex items-center justify-center transition-colors">
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+          <Link
+            href="/notifications"
+            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-colors ${pathname.startsWith('/notifications') ? 'bg-[#dce8ff] text-[#1877f2]' : 'bg-[#e4e6eb] hover:bg-gray-300 text-gray-800'}`}
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
             </svg>
-          </button>
+          </Link>
           {/* Avatar + dropdown */}
           <div className="relative">
             <button

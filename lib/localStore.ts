@@ -6,16 +6,18 @@ import {
   SEED_COMMENTS,
   SEED_FRIENDSHIPS,
   SEED_JOBS,
+  SEED_MESSAGES,
   SeedUser,
   RawPost,
   RawLike,
   RawComment,
   RawFriendship,
+  RawMessage,
   SeedJob,
 } from './mockData'
 
 const KEYS = {
-  initialized: 'sb_initialized',
+  initialized: 'sb_v2',
   users: 'sb_users',
   posts: 'sb_posts',
   likes: 'sb_likes',
@@ -23,6 +25,7 @@ const KEYS = {
   friendships: 'sb_friendships',
   session: 'sb_session',
   appliedJobs: 'sb_applied_jobs',
+  messages: 'sb_messages',
 }
 
 function getItem<T>(key: string, defaultValue: T): T {
@@ -50,6 +53,7 @@ export function initStore(): void {
   setItem(KEYS.comments, SEED_COMMENTS)
   setItem(KEYS.friendships, SEED_FRIENDSHIPS)
   setItem(KEYS.appliedJobs, [])
+  setItem(KEYS.messages, SEED_MESSAGES)
   localStorage.setItem(KEYS.initialized, '1')
 }
 
@@ -312,4 +316,93 @@ export function applyToJob(userId: string, jobId: string): void {
   if (!existing) {
     setItem(KEYS.appliedJobs, [...applications, { userId, jobId }])
   }
+}
+
+// --- Messages ---
+
+export interface MessageWithUsers extends RawMessage {
+  sender: { id: string; name: string; profileImage: string | null }
+  receiver: { id: string; name: string; profileImage: string | null }
+}
+
+function assembleMessage(m: RawMessage): MessageWithUsers {
+  const users = getUsers()
+  const sender = users.find((u) => u.id === m.senderId)
+  const receiver = users.find((u) => u.id === m.receiverId)
+  return {
+    ...m,
+    sender: { id: m.senderId, name: sender?.name ?? 'Unknown', profileImage: sender?.profileImage ?? null },
+    receiver: { id: m.receiverId, name: receiver?.name ?? 'Unknown', profileImage: receiver?.profileImage ?? null },
+  }
+}
+
+export function getMessages(userId: string, otherUserId: string): MessageWithUsers[] {
+  const messages = getItem<RawMessage[]>(KEYS.messages, [])
+  return messages
+    .filter(
+      (m) =>
+        (m.senderId === userId && m.receiverId === otherUserId) ||
+        (m.senderId === otherUserId && m.receiverId === userId)
+    )
+    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    .map(assembleMessage)
+}
+
+export interface Conversation {
+  otherUser: { id: string; name: string; profileImage: string | null }
+  lastMessage: MessageWithUsers
+  unreadCount: number
+}
+
+export function getConversations(userId: string): Conversation[] {
+  const messages = getItem<RawMessage[]>(KEYS.messages, [])
+  const users = getUsers()
+
+  const involvedMessages = messages.filter((m) => m.senderId === userId || m.receiverId === userId)
+  const otherUserIds = Array.from(new Set(involvedMessages.map((m) => (m.senderId === userId ? m.receiverId : m.senderId))))
+
+  return otherUserIds
+    .map((otherId) => {
+      const thread = involvedMessages
+        .filter((m) => m.senderId === otherId || m.receiverId === otherId)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      const lastRaw = thread[0]
+      const otherUser = users.find((u) => u.id === otherId)
+      const unreadCount = thread.filter((m) => m.senderId === otherId && !m.read).length
+      return {
+        otherUser: { id: otherId, name: otherUser?.name ?? 'Unknown', profileImage: otherUser?.profileImage ?? null },
+        lastMessage: assembleMessage(lastRaw),
+        unreadCount,
+      }
+    })
+    .sort((a, b) => new Date(b.lastMessage.createdAt).getTime() - new Date(a.lastMessage.createdAt).getTime())
+}
+
+export function sendMessage(senderId: string, receiverId: string, content: string): MessageWithUsers {
+  const messages = getItem<RawMessage[]>(KEYS.messages, [])
+  const raw: RawMessage = {
+    id: generateId(),
+    senderId,
+    receiverId,
+    content: content.trim(),
+    createdAt: new Date().toISOString(),
+    read: false,
+  }
+  setItem(KEYS.messages, [...messages, raw])
+  return assembleMessage(raw)
+}
+
+export function markMessagesRead(userId: string, otherUserId: string): void {
+  const messages = getItem<RawMessage[]>(KEYS.messages, [])
+  setItem(
+    KEYS.messages,
+    messages.map((m) =>
+      m.senderId === otherUserId && m.receiverId === userId ? { ...m, read: true } : m
+    )
+  )
+}
+
+export function getUnreadCount(userId: string): number {
+  const messages = getItem<RawMessage[]>(KEYS.messages, [])
+  return messages.filter((m) => m.receiverId === userId && !m.read).length
 }

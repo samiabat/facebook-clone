@@ -5,14 +5,14 @@ import { useState } from 'react'
 const TABS = ['Home', 'Live', 'Gaming', 'Shows', 'Sports']
 
 const VIDEOS = [
-  { id: 1, title: 'Epic Drone Footage of Patagonia', channel: 'NatureVids', views: '2.1M views', duration: '12:34', gradient: 'from-teal-400 to-cyan-600', emoji: '🏔️' },
-  { id: 2, title: 'Best Street Food in Bangkok', channel: 'FoodWorld', views: '890K views', duration: '18:22', gradient: 'from-orange-400 to-red-500', emoji: '🍜' },
-  { id: 3, title: 'React 18 New Features Explained', channel: 'CodeWithMe', views: '450K views', duration: '25:10', gradient: 'from-blue-400 to-indigo-600', emoji: '⚛️' },
-  { id: 4, title: 'World Cup Highlights 2024', channel: 'SportsTV', views: '5.3M views', duration: '08:45', gradient: 'from-green-400 to-emerald-600', emoji: '⚽' },
-  { id: 5, title: 'Lofi Hip Hop Chill Mix', channel: 'ChillBeats', views: '1.8M views', duration: '1:02:00', gradient: 'from-purple-500 to-pink-500', emoji: '🎵' },
-  { id: 6, title: 'Morning Yoga Flow', channel: 'YogaLife', views: '670K views', duration: '30:00', gradient: 'from-yellow-400 to-orange-500', emoji: '🧘' },
-  { id: 7, title: 'Tiny House Tour 2024', channel: 'HomeTours', views: '1.2M views', duration: '14:08', gradient: 'from-rose-400 to-red-500', emoji: '🏠' },
-  { id: 8, title: 'Aurora Borealis Timelapse', channel: 'NatureVids', views: '3.4M views', duration: '06:12', gradient: 'from-violet-500 to-indigo-600', emoji: '🌌' },
+  { id: 1, title: 'Epic Drone Footage of Patagonia', channel: 'NatureVids', views: '2.1M views', duration: '12:34', image: 'https://picsum.photos/seed/patagonia_drone/400/225' },
+  { id: 2, title: 'Best Street Food in Bangkok', channel: 'FoodWorld', views: '890K views', duration: '18:22', image: 'https://picsum.photos/seed/bangkok_food/400/225' },
+  { id: 3, title: 'React 18 New Features Explained', channel: 'CodeWithMe', views: '450K views', duration: '25:10', image: 'https://picsum.photos/seed/react_code/400/225' },
+  { id: 4, title: 'World Cup Highlights 2024', channel: 'SportsTV', views: '5.3M views', duration: '08:45', image: 'https://picsum.photos/seed/soccer_match/400/225' },
+  { id: 5, title: 'Lofi Hip Hop Chill Mix', channel: 'ChillBeats', views: '1.8M views', duration: '1:02:00', image: 'https://picsum.photos/seed/lofi_music/400/225' },
+  { id: 6, title: 'Morning Yoga Flow', channel: 'YogaLife', views: '670K views', duration: '30:00', image: 'https://picsum.photos/seed/yoga_morning/400/225' },
+  { id: 7, title: 'Tiny House Tour 2024', channel: 'HomeTours', views: '1.2M views', duration: '14:08', image: 'https://picsum.photos/seed/tiny_house/400/225' },
+  { id: 8, title: 'Aurora Borealis Timelapse', channel: 'NatureVids', views: '3.4M views', duration: '06:12', image: 'https://picsum.photos/seed/aurora_sky/400/225' },
 ]
 
 export default function WatchPage() {
@@ -49,9 +49,11 @@ export default function WatchPage() {
 
       {/* Featured (large) video */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-5 cursor-pointer hover:shadow-md transition-shadow">
-        <div className="h-56 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center relative">
-          <span className="text-7xl">🌌</span>
+        <div className="h-56 relative overflow-hidden">
+          <img src="https://picsum.photos/seed/iss_live/800/400" alt="Live stream" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/30"></div>
           <div className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-0.5 rounded font-mono">3:42:00</div>
+          <div className="absolute top-3 left-3 bg-red-600 text-white text-xs px-2 py-0.5 rounded font-bold">🔴 LIVE</div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
               <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -74,9 +76,9 @@ export default function WatchPage() {
             key={video.id}
             className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
           >
-            <div className={`h-40 bg-gradient-to-br ${video.gradient} flex items-center justify-center relative`}>
-              <span className="text-5xl">{video.emoji}</span>
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/20">
+            <div className="h-40 relative overflow-hidden group">
+              <img src={video.image} alt={video.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
                 <div className="w-12 h-12 rounded-full bg-black/50 flex items-center justify-center">
                   <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />

@@ -10,8 +10,7 @@ const EVENTS = [
     location: 'Las Vegas, NV',
     attendees: 4200,
     category: 'Technology',
-    gradient: 'from-blue-500 to-cyan-500',
-    emoji: '⚛️',
+    image: 'https://picsum.photos/seed/react_conf/200/200',
     going: false,
   },
   {
@@ -21,8 +20,7 @@ const EVENTS = [
     location: 'Central Park, New York',
     attendees: 15000,
     category: 'Music',
-    gradient: 'from-purple-500 to-pink-500',
-    emoji: '🎵',
+    image: 'https://picsum.photos/seed/music_festival/200/200',
     going: false,
   },
   {
@@ -32,8 +30,7 @@ const EVENTS = [
     location: 'Downtown Plaza',
     attendees: 350,
     category: 'Community',
-    gradient: 'from-green-500 to-emerald-500',
-    emoji: '🥕',
+    image: 'https://picsum.photos/seed/farmers_market/200/200',
     going: true,
   },
   {
@@ -43,8 +40,7 @@ const EVENTS = [
     location: 'City Marathon Route',
     attendees: 2100,
     category: 'Sports',
-    gradient: 'from-orange-500 to-red-500',
-    emoji: '🏃',
+    image: 'https://picsum.photos/seed/marathon_run/200/200',
     going: false,
   },
   {
@@ -54,8 +50,7 @@ const EVENTS = [
     location: 'Art Studio, Seattle',
     attendees: 45,
     category: 'Education',
-    gradient: 'from-yellow-500 to-orange-400',
-    emoji: '📸',
+    image: 'https://picsum.photos/seed/photo_workshop/200/200',
     going: false,
   },
   {
@@ -65,8 +60,7 @@ const EVENTS = [
     location: 'Convention Center, SF',
     attendees: 8000,
     category: 'Food',
-    gradient: 'from-red-400 to-rose-500',
-    emoji: '🍷',
+    image: 'https://picsum.photos/seed/food_wine/200/200',
     going: false,
   },
 ]
@@ -122,8 +116,8 @@ export default function EventsPage() {
         <div className="space-y-4">
           {displayed.map((event) => (
             <div key={event.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex">
-              <div className={`w-24 bg-gradient-to-b ${event.gradient} flex items-center justify-center flex-shrink-0`}>
-                <span className="text-4xl">{event.emoji}</span>
+              <div className="w-24 flex-shrink-0 overflow-hidden">
+                <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
               </div>
               <div className="p-4 flex-1 min-w-0">
                 <p className="text-xs text-[#1877f2] font-semibold uppercase tracking-wide">{event.date}</p>

@@ -9,14 +9,14 @@ import { SeedUser } from '@/lib/mockData'
 const SPONSORED_ADS = [
   {
     id: 1,
-    image: 'https://placehold.co/60x60/4CAF50/white?text=Ad',
+    image: 'https://picsum.photos/seed/ad_business/120/120',
     title: 'Boost Your Business',
     url: 'growwithads.com',
     description: 'Reach more customers with targeted ads.',
   },
   {
     id: 2,
-    image: 'https://placehold.co/60x60/2196F3/white?text=Ad',
+    image: 'https://picsum.photos/seed/ad_coding/120/120',
     title: 'Learn to Code Online',
     url: 'devacademy.io',
     description: 'Start your tech career today.',
@@ -82,7 +82,7 @@ export default function RightSidebar() {
           {contacts.map((contact, idx) => (
             <Link
               key={contact.id}
-              href={`/profile/${contact.id}`}
+              href={`/messages/${contact.id}`}
               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <div className="relative flex-shrink-0">
