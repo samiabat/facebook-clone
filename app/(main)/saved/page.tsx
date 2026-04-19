@@ -11,12 +11,12 @@ const SAVED_CATEGORIES = [
 ]
 
 const SAVED_ITEMS = [
-  { id: 1, category: 'posts', title: 'Morning workout tips that actually work', author: 'Alice Johnson', date: '2 days ago', gradient: 'from-orange-400 to-red-500', emoji: '💪', type: 'Post' },
-  { id: 2, category: 'videos', title: 'How to make perfect pasta at home', author: 'Carol Williams', date: '5 days ago', gradient: 'from-yellow-400 to-orange-500', emoji: '🍝', type: 'Video' },
-  { id: 3, category: 'links', title: '10 Best React Hooks Explained', author: 'Tech Blog', date: '1 week ago', gradient: 'from-blue-400 to-indigo-600', emoji: '⚛️', type: 'Link' },
-  { id: 4, category: 'places', title: 'The Golden Gate Viewpoint', author: 'Travel Guide', date: '2 weeks ago', gradient: 'from-green-400 to-teal-500', emoji: '🌉', type: 'Place' },
-  { id: 5, category: 'posts', title: 'Photography tips for beginners', author: 'Bob Smith', date: '3 weeks ago', gradient: 'from-purple-400 to-pink-500', emoji: '📷', type: 'Post' },
-  { id: 6, category: 'videos', title: 'City street art documentary', author: 'Frank Miller', date: '1 month ago', gradient: 'from-gray-500 to-gray-700', emoji: '🎨', type: 'Video' },
+  { id: 1, category: 'posts', title: 'Morning workout tips that actually work', author: 'Alice Johnson', date: '2 days ago', image: 'https://picsum.photos/seed/saved_workout/400/250', type: 'Post' },
+  { id: 2, category: 'videos', title: 'How to make perfect pasta at home', author: 'Carol Williams', date: '5 days ago', image: 'https://picsum.photos/seed/saved_pasta/400/250', type: 'Video' },
+  { id: 3, category: 'links', title: '10 Best React Hooks Explained', author: 'Tech Blog', date: '1 week ago', image: 'https://picsum.photos/seed/saved_react/400/250', type: 'Link' },
+  { id: 4, category: 'places', title: 'The Golden Gate Viewpoint', author: 'Travel Guide', date: '2 weeks ago', image: 'https://picsum.photos/seed/golden_gate/400/250', type: 'Place' },
+  { id: 5, category: 'posts', title: 'Photography tips for beginners', author: 'Bob Smith', date: '3 weeks ago', image: 'https://picsum.photos/seed/photography_tips/400/250', type: 'Post' },
+  { id: 6, category: 'videos', title: 'City street art documentary', author: 'Frank Miller', date: '1 month ago', image: 'https://picsum.photos/seed/street_art/400/250', type: 'Video' },
 ]
 
 export default function SavedPage() {
@@ -63,8 +63,8 @@ export default function SavedPage() {
               key={item.id}
               className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
             >
-              <div className={`h-32 bg-gradient-to-br ${item.gradient} flex items-center justify-center`}>
-                <span className="text-4xl">{item.emoji}</span>
+              <div className="h-32 overflow-hidden">
+                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
               </div>
               <div className="p-3">
                 <span className="text-xs text-gray-500 font-medium uppercase tracking-wide">{item.type}</span>

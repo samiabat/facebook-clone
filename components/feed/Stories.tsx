@@ -5,12 +5,12 @@ import { useAuth } from '@/contexts/AuthContext'
 import { getUsers } from '@/lib/localStore'
 import { SeedUser } from '@/lib/mockData'
 
-const STORY_GRADIENTS = [
-  'from-pink-500 to-orange-400',
-  'from-blue-500 to-purple-600',
-  'from-green-500 to-teal-400',
-  'from-yellow-400 to-orange-500',
-  'from-purple-500 to-pink-500',
+const STORY_IMAGES = [
+  'https://picsum.photos/seed/story1/200/320',
+  'https://picsum.photos/seed/story2/200/320',
+  'https://picsum.photos/seed/story3/200/320',
+  'https://picsum.photos/seed/story4/200/320',
+  'https://picsum.photos/seed/story5/200/320',
 ]
 
 export default function Stories() {
@@ -53,7 +53,13 @@ export default function Stories() {
           key={contact.id}
           className="flex-shrink-0 w-28 h-44 rounded-xl overflow-hidden shadow-sm cursor-pointer hover:brightness-90 transition-all relative"
         >
-          <div className={`w-full h-full bg-gradient-to-b ${STORY_GRADIENTS[i % STORY_GRADIENTS.length]} flex items-end p-2`}>
+          <div className="w-full h-full flex items-end p-2">
+            <img
+              src={STORY_IMAGES[i % STORY_IMAGES.length]}
+              alt={contact.name}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             {/* Avatar */}
             <div className="absolute top-2 left-2 w-9 h-9 rounded-full border-[3px] border-[#1877f2] overflow-hidden bg-gray-300 flex items-center justify-center">
               {contact.profileImage ? (
@@ -63,7 +69,7 @@ export default function Stories() {
               )}
             </div>
             {/* Name */}
-            <p className="text-white text-xs font-semibold leading-tight drop-shadow">{contact.name.split(' ')[0]}</p>
+            <p className="relative text-white text-xs font-semibold leading-tight drop-shadow">{contact.name.split(' ')[0]}</p>
           </div>
         </div>
       ))}

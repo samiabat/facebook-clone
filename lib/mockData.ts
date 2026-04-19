@@ -38,6 +38,15 @@ export interface RawFriendship {
   createdAt: string
 }
 
+export interface RawMessage {
+  id: string
+  senderId: string
+  receiverId: string
+  content: string
+  createdAt: string
+  read: boolean
+}
+
 export interface SeedJob {
   id: string
   title: string
@@ -57,8 +66,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'alice@example.com',
     password: 'password',
     bio: 'Software engineer and coffee enthusiast ☕',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=47',
+    coverImage: 'https://picsum.photos/seed/alice_cover/1200/400',
     createdAt: '2024-01-15T10:00:00Z',
   },
   {
@@ -67,8 +76,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'bob@example.com',
     password: 'password',
     bio: 'Photographer and travel lover 📷',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=12',
+    coverImage: 'https://picsum.photos/seed/bob_cover/1200/400',
     createdAt: '2024-01-20T12:00:00Z',
   },
   {
@@ -77,8 +86,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'carol@example.com',
     password: 'password',
     bio: 'Food blogger and home cook 🍳',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=25',
+    coverImage: 'https://picsum.photos/seed/carol_cover/1200/400',
     createdAt: '2024-02-01T09:00:00Z',
   },
   {
@@ -87,8 +96,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'david@example.com',
     password: 'password',
     bio: 'Fitness trainer and wellness advocate 💪',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=59',
+    coverImage: 'https://picsum.photos/seed/david_cover/1200/400',
     createdAt: '2024-02-10T14:00:00Z',
   },
   {
@@ -97,8 +106,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'emma@example.com',
     password: 'password',
     bio: 'Artist and creative dreamer 🎨',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=31',
+    coverImage: 'https://picsum.photos/seed/emma_cover/1200/400',
     createdAt: '2024-02-15T11:00:00Z',
   },
   {
@@ -107,8 +116,8 @@ export const SEED_USERS: SeedUser[] = [
     email: 'frank@example.com',
     password: 'password',
     bio: 'Music producer and vinyl collector 🎵',
-    profileImage: null,
-    coverImage: null,
+    profileImage: 'https://i.pravatar.cc/300?img=68',
+    coverImage: 'https://picsum.photos/seed/frank_cover/1200/400',
     createdAt: '2024-02-20T16:00:00Z',
   },
 ]
@@ -117,7 +126,7 @@ export const SEED_POSTS: RawPost[] = [
   {
     id: 'p1',
     content: 'Just finished my morning run! 🏃‍♀️ 5K in under 25 minutes – new personal best!',
-    image: null,
+    image: 'https://picsum.photos/seed/run2024/800/500',
     authorId: 'u1',
     createdAt: '2024-03-01T08:30:00Z',
   },
@@ -125,7 +134,7 @@ export const SEED_POSTS: RawPost[] = [
     id: 'p2',
     content:
       'Captured this amazing sunset last night at the beach 🌅 Sometimes you just have to stop and appreciate the beauty around us.',
-    image: null,
+    image: 'https://picsum.photos/seed/sunset_beach/800/500',
     authorId: 'u2',
     createdAt: '2024-03-02T19:00:00Z',
   },
@@ -133,56 +142,56 @@ export const SEED_POSTS: RawPost[] = [
     id: 'p3',
     content:
       'Made homemade pasta from scratch today! 🍝 Nothing beats the taste of fresh pasta. Recipe in the comments!',
-    image: null,
+    image: 'https://picsum.photos/seed/pasta2024/800/500',
     authorId: 'u3',
     createdAt: '2024-03-03T12:00:00Z',
   },
   {
     id: 'p4',
     content: "30-day workout challenge starts today! Who's joining me? Drop a 💪 in the comments if you're in!",
-    image: null,
+    image: 'https://picsum.photos/seed/workout_gym/800/500',
     authorId: 'u4',
     createdAt: '2024-03-04T07:00:00Z',
   },
   {
     id: 'p5',
     content: "Finally finished my latest painting 🎨 This one took 3 weeks but I'm really happy with how it turned out.",
-    image: null,
+    image: 'https://picsum.photos/seed/painting_art/800/500',
     authorId: 'u5',
     createdAt: '2024-03-05T15:00:00Z',
   },
   {
     id: 'p6',
     content: 'Just dropped a new mixtape! 🎵 Let me know what you think!',
-    image: null,
+    image: 'https://picsum.photos/seed/music_studio/800/500',
     authorId: 'u6',
     createdAt: '2024-03-06T18:00:00Z',
   },
   {
     id: 'p7',
     content: 'Had the most amazing coffee this morning at the new café downtown ☕ Highly recommend the cortado!',
-    image: null,
+    image: 'https://picsum.photos/seed/coffee_cafe/800/500',
     authorId: 'u1',
     createdAt: '2024-03-07T09:00:00Z',
   },
   {
     id: 'p8',
     content: 'Road trip weekend! 🚗 Nothing like exploring new places and making memories.',
-    image: null,
+    image: 'https://picsum.photos/seed/roadtrip_highway/800/500',
     authorId: 'u2',
     createdAt: '2024-03-08T10:00:00Z',
   },
   {
     id: 'p9',
     content: "Brunch ideas for the weekend? I'm thinking avocado toast and fresh smoothies 🥑🥤",
-    image: null,
+    image: 'https://picsum.photos/seed/brunch_food/800/500',
     authorId: 'u3',
     createdAt: '2024-03-09T11:00:00Z',
   },
   {
     id: 'p10',
     content: 'Reminder: your only competition is yourself. Keep pushing! 🔥',
-    image: null,
+    image: 'https://picsum.photos/seed/fitness_motivation/800/500',
     authorId: 'u4',
     createdAt: '2024-03-10T06:30:00Z',
   },
@@ -260,6 +269,20 @@ export const SEED_FRIENDSHIPS: RawFriendship[] = [
   { id: 'f1', requesterId: 'u1', addresseeId: 'u2', status: 'ACCEPTED', createdAt: '2024-01-25T00:00:00Z' },
   { id: 'f2', requesterId: 'u1', addresseeId: 'u3', status: 'ACCEPTED', createdAt: '2024-02-05T00:00:00Z' },
   { id: 'f3', requesterId: 'u4', addresseeId: 'u1', status: 'PENDING', createdAt: '2024-03-10T00:00:00Z' },
+]
+
+export const SEED_MESSAGES: RawMessage[] = [
+  { id: 'm1', senderId: 'u2', receiverId: 'u1', content: 'Hey Alice! How was your run this morning?', createdAt: '2024-03-01T09:00:00Z', read: true },
+  { id: 'm2', senderId: 'u1', receiverId: 'u2', content: "It was great! New personal best 🏃‍♀️ How about you?", createdAt: '2024-03-01T09:05:00Z', read: true },
+  { id: 'm3', senderId: 'u2', receiverId: 'u1', content: 'Awesome! I was out taking photos at the beach. Got some incredible shots 📸', createdAt: '2024-03-01T09:10:00Z', read: true },
+  { id: 'm4', senderId: 'u1', receiverId: 'u2', content: 'Oh wow, I saw them on your story! The sunset was absolutely stunning 😍', createdAt: '2024-03-01T09:15:00Z', read: true },
+  { id: 'm5', senderId: 'u2', receiverId: 'u1', content: 'Thanks! We should go together sometime!', createdAt: '2024-03-01T09:20:00Z', read: false },
+  { id: 'm6', senderId: 'u3', receiverId: 'u1', content: 'Alice! Did you try the pasta recipe I posted?', createdAt: '2024-03-03T14:00:00Z', read: true },
+  { id: 'm7', senderId: 'u1', receiverId: 'u3', content: "Not yet but it looks delicious! I'll make it this weekend 🍝", createdAt: '2024-03-03T14:30:00Z', read: true },
+  { id: 'm8', senderId: 'u3', receiverId: 'u1', content: 'Let me know how it turns out! I can send you more tips 😊', createdAt: '2024-03-03T14:35:00Z', read: false },
+  { id: 'm9', senderId: 'u4', receiverId: 'u1', content: 'Hey! Joining my 30-day workout challenge?', createdAt: '2024-03-04T08:00:00Z', read: true },
+  { id: 'm10', senderId: 'u1', receiverId: 'u4', content: "Definitely! I'm in 💪 When do we start?", createdAt: '2024-03-04T08:10:00Z', read: true },
+  { id: 'm11', senderId: 'u4', receiverId: 'u1', content: 'Today! Check the post for the plan. Day 1 is legs 🔥', createdAt: '2024-03-04T08:15:00Z', read: false },
 ]
 
 export const SEED_JOBS: SeedJob[] = [

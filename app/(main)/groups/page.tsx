@@ -4,17 +4,17 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 const SUGGESTED_GROUPS = [
-  { id: 1, name: 'Web Developers Community', members: '128K members', category: 'Technology', gradient: 'from-blue-500 to-blue-700', emoji: '💻' },
-  { id: 2, name: 'Photography Enthusiasts', members: '87K members', category: 'Hobbies', gradient: 'from-purple-500 to-pink-500', emoji: '📸' },
-  { id: 3, name: 'Healthy Living & Wellness', members: '245K members', category: 'Health', gradient: 'from-green-400 to-teal-500', emoji: '🥗' },
-  { id: 4, name: 'Travel & Adventure Club', members: '312K members', category: 'Travel', gradient: 'from-orange-400 to-red-500', emoji: '✈️' },
-  { id: 5, name: 'Cooking & Recipes', members: '189K members', category: 'Food', gradient: 'from-yellow-400 to-orange-500', emoji: '👨‍🍳' },
-  { id: 6, name: 'Music Lovers', members: '421K members', category: 'Entertainment', gradient: 'from-indigo-500 to-purple-600', emoji: '🎵' },
+  { id: 1, name: 'Web Developers Community', members: '128K members', category: 'Technology', image: 'https://picsum.photos/seed/web_dev_group/400/200' },
+  { id: 2, name: 'Photography Enthusiasts', members: '87K members', category: 'Hobbies', image: 'https://picsum.photos/seed/photography_group/400/200' },
+  { id: 3, name: 'Healthy Living & Wellness', members: '245K members', category: 'Health', image: 'https://picsum.photos/seed/wellness_group/400/200' },
+  { id: 4, name: 'Travel & Adventure Club', members: '312K members', category: 'Travel', image: 'https://picsum.photos/seed/travel_group/400/200' },
+  { id: 5, name: 'Cooking & Recipes', members: '189K members', category: 'Food', image: 'https://picsum.photos/seed/cooking_group/400/200' },
+  { id: 6, name: 'Music Lovers', members: '421K members', category: 'Entertainment', image: 'https://picsum.photos/seed/music_group/400/200' },
 ]
 
 const YOUR_GROUPS = [
-  { id: 7, name: 'React & Next.js Devs', members: '45K members', gradient: 'from-cyan-400 to-blue-500', emoji: '⚛️' },
-  { id: 8, name: 'Local Fitness Meetup', members: '2.3K members', gradient: 'from-red-400 to-orange-400', emoji: '🏋️' },
+  { id: 7, name: 'React & Next.js Devs', members: '45K members', image: 'https://picsum.photos/seed/react_group/400/200' },
+  { id: 8, name: 'Local Fitness Meetup', members: '2.3K members', image: 'https://picsum.photos/seed/fitness_group/400/200' },
 ]
 
 export default function GroupsPage() {
@@ -38,8 +38,8 @@ export default function GroupsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {YOUR_GROUPS.map((group) => (
               <div key={group.id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-                <div className={`h-24 bg-gradient-to-r ${group.gradient} flex items-center justify-center`}>
-                  <span className="text-4xl">{group.emoji}</span>
+                <div className="h-24 overflow-hidden">
+                  <img src={group.image} alt={group.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="p-3">
                   <p className="font-semibold text-gray-900 text-sm">{group.name}</p>
@@ -77,8 +77,8 @@ export default function GroupsPage() {
             const joined = joinedGroups.includes(group.id)
             return (
               <div key={group.id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                <div className={`h-24 bg-gradient-to-r ${group.gradient} flex items-center justify-center`}>
-                  <span className="text-4xl">{group.emoji}</span>
+                <div className="h-24 overflow-hidden">
+                  <img src={group.image} alt={group.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="p-3">
                   <p className="font-semibold text-gray-900 text-sm">{group.name}</p>

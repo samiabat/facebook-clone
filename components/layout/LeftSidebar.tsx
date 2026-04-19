@@ -192,7 +192,7 @@ export default function LeftSidebar({ user }: LeftSidebarProps) {
         <p className="text-xs text-gray-500 leading-relaxed">
           Privacy · Terms · Advertising · Ad Choices ▶ · Cookies · More
         </p>
-        <p className="text-xs text-gray-400 mt-1">Meta © 2024</p>
+        <p className="text-xs text-gray-400 mt-1">SocialBlade © 2025</p>
       </div>
     </aside>
   )
