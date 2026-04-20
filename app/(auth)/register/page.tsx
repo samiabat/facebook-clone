@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import SocialBladeLogo from '@/components/SocialBladeLogo'
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
@@ -27,7 +28,10 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-[#1877f2] text-5xl font-bold">socialbook</h1>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <SocialBladeLogo size={52} />
+            <h1 className="text-[#1877f2] text-5xl font-bold tracking-tight">Social Blade</h1>
+          </div>
         </div>
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-1">Create a new account</h2>

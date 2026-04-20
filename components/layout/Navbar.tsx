@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
 import { getUnreadCount } from '@/lib/localStore'
+import SocialBladeLogo from '@/components/SocialBladeLogo'
 
 interface NavbarProps {
   user: { id?: string; name?: string | null; profileImage?: string | null }
@@ -85,15 +86,13 @@ export default function Navbar({ user }: NavbarProps) {
         {/* Left: Logo + Search */}
         <div className="flex items-center gap-2 min-w-[240px]">
           <Link href="/" className="flex-shrink-0">
-            <div className="w-10 h-10 bg-[#1877f2] rounded-full flex items-center justify-center">
-              <span className="text-white text-2xl font-bold leading-none" style={{ fontFamily: 'serif' }}>f</span>
-            </div>
+            <SocialBladeLogo size={40} />
           </Link>
           <div className="hidden sm:flex items-center bg-[#f0f2f5] rounded-full px-3 py-2 gap-2 w-52">
             <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
-            <span className="text-gray-500 text-sm">Search Facebook</span>
+            <span className="text-gray-500 text-sm">Search Social Blade</span>
           </div>
         </div>
 
