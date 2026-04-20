@@ -1,9 +1,15 @@
+'use client'
+
+import { useId } from 'react'
+
 interface SocialBladeLogoProps {
   size?: number
   className?: string
 }
 
 export default function SocialBladeLogo({ size = 40, className = '' }: SocialBladeLogoProps) {
+  const gradId = useId()
+
   return (
     <svg
       width={size}
@@ -15,13 +21,13 @@ export default function SocialBladeLogo({ size = 40, className = '' }: SocialBla
       aria-label="Social Blade logo"
     >
       <defs>
-        <linearGradient id="sbLogoGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
           <stop stopColor="#1877f2" />
           <stop offset="1" stopColor="#7c4dff" />
         </linearGradient>
       </defs>
       {/* Background rounded square */}
-      <rect width="40" height="40" rx="10" fill="url(#sbLogoGrad)" />
+      <rect width="40" height="40" rx="10" fill={`url(#${gradId})`} />
       {/* Sword / blade shape: pointed blade + crossguard + handle */}
       <path
         d="M20 5 L22 18 L27 18 L27 21 L22 21 L21.5 33 L20 34.5 L18.5 33 L18 21 L13 21 L13 18 L18 18 Z"
